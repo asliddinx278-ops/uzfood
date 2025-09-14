@@ -1,6 +1,6 @@
 /* =========================================================
    CART MODULE – 1 000 000 $  (savatda joylashuv yoʻq,
-   tasdiqlash bosilgina Telegram location so‘raydi)
+   tasdiqlash bosilgina Telegram native location so‘raydi)
    ========================================================= */
 const tg = window.Telegram?.WebApp || {};
 
@@ -79,13 +79,17 @@ window.removeItem = id=>{
   saveCart(); renderCart();
 };
 
-/* ========== TASDIQLASH: faqat Telegram location so‘raymiz ========== */
+/* ========== TASDIQLASH: Telegram native location so‘raydi ========== */
 document.getElementById('checkoutBtn')?.addEventListener('click',()=>{
   if (!cart.length) { alert("Savat bo‘sh!"); return; }
 
   const tg = window.Telegram?.WebApp;
   if (!tg) { alert("Iltimos telegram orqali oching!"); return; }
 
-  // Telegramga location so‘rovini yuboramiz
-  tg.sendData(JSON.stringify({action:"request_location"}));
+  /* Telegram native location dialogi */
+  tg.MainButton.text = "Joylashuvni yuborish";
+  tg.MainButton.show();
+  tg.MainButton.onClick(() => {
+      tg.requestLocation(() => {});   // location so‘rovini yuboradi
+  });
 });
