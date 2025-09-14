@@ -1,5 +1,5 @@
 /* =========================================================
-   SEARCH MODULE – 1 000 000 $
+   SEARCH MODULE – 1 000 000 $  (to‘liq, rasm bilan)
    ========================================================= */
 import { FULL_MENU } from './main.js';
 
@@ -7,14 +7,19 @@ export function renderSearch(){
   const inp = document.getElementById('searchInp');
   const res = document.getElementById('searchRes');
 
+  /* birinchi yuklaganda bo‘sh holat */
+  if(!inp || !res) return;
+
   inp.oninput = () => {
     const q = inp.value.trim().toLowerCase();
     if(!q){ res.innerHTML=''; return; }
 
+    /* nom bo‘yicha qidirish */
     const found = Object.values(FULL_MENU)
                        .flat()
                        .filter(item => item.name.toLowerCase().includes(q));
 
+    /* natijani chiqarish */
     res.innerHTML = '';
     if(!found.length){ res.innerHTML='<p class="empty">Hech narsa topilmadi</p>'; return; }
 
@@ -27,7 +32,8 @@ export function renderSearch(){
           <h3>${it.name}</h3>
           <p class="price">${it.price.toLocaleString()} so‘m</p>
           <button class="add-btn"
-                  onclick="import('./cart.js').then(m=>m.addToCart(${it.id},'${it.name}',${it.price},1))">
+                  onclick="import('./cart.js')
+                          .then(m=>m.addToCart(${it.id},'${it.name}',${it.price},1,'${it.img}'))">
             Tanlash
           </button>
         </div>`;
@@ -35,5 +41,6 @@ export function renderSearch(){
     });
   };
 
+  /* birinchi ochilganda bo‘sh holat */
   inp.oninput();
-}
+                                    }
