@@ -5,12 +5,12 @@
 // 1. Rasmlar – **imgur** CDN (o‘zingiznikiga almashtiring)
 
 const IMAGES = {
-  osh:      'https://i.ibb.co/tTY9cFfS/image1.jpg',  // Imgbb direct link
-  shorva:   'https://i.imgur.com/N4R5XYZ.jpg',
-  kabob:    'https://i.imgur.com/9aB1CDE.jpg',
-  salat:    'https://i.imgur.com/2fG3HIJ.jpg',
-  ichimlik: 'https://i.imgur.com/8cK9w.jpg',
-  desert:   'https://i.imgur.com/7dL4MNO.jpg'
+  osh:      'https://i.ibb.co/tTY9cFfS/image1.jpg',  // Osh rasmi
+  shorva:   'https://i.ibb.co/PZtGJQDf/183ce0-3a3bcf40ab8d4a1abeb6d62d30576bd1-mv2.jpg', // Sho'rva
+  kabob:    'https://i.ibb.co/PGv4rR6t/Beef-Shish-Kabob-6.jpg', // Kabob
+  salat:    'https://i.ibb.co/NgsxmcmP/instagram1080-1024x1024.png', // Salat
+  ichimlik: 'https://i.ibb.co/Z1gqqvrc/original.jpg', // Ichimlik
+  desert:   'https://i.ibb.co/9myWgVZb/bfdejixlfomrkzsdmxsq-ogd2pemlkxf.webp' // Desert
 };
 
 export const FULL_MENU = {
