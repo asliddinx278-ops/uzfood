@@ -1,5 +1,5 @@
 /* =========================================================
-   100 000 $  BOT  –  PREMIUM  APP.JS  (yangi dizayn uchun)
+   1 000 000 $  BOT  –  PREMIUM  APP.JS
    ========================================================= */
 
 import { renderTop5, renderMenu, renderCats } from '/uzfood/modules/main.js';
@@ -7,11 +7,10 @@ import { renderCart, updateBadge }            from '/uzfood/modules/cart.js';
 import { renderSearch }                      from '/uzfood/modules/search.js';
 import { renderProfile }                     from '/uzfood/modules/profile.js';
 
-/* ---------- Telegram WebApp ---------- */
 const tg = window.Telegram?.WebApp || {};
 tg.expand?.();
 
-/* ---------- Theme Toggle (yangi) ---------- */
+/* ---------- Theme Toggle ---------- */
 const themeBtn = document.getElementById('themeBtn');
 if (themeBtn) {
   themeBtn.onclick = () => {
@@ -20,16 +19,22 @@ if (themeBtn) {
     icon.textContent = document.body.classList.contains('dark')
       ? 'brightness_7'
       : 'brightness_4';
+    document.body.style.transition = 'background .25s, color .25s';
   };
 }
 
-/* ---------- Bottom Nav ---------- */
+/* ---------- Bottom Nav (4 ta knopka) ---------- */
 document.querySelectorAll('.nav-item').forEach(btn => {
   btn.onclick = () => {
     const page = btn.dataset.page;
     showPage(page);
+
+    /* active klassni ko‘chirish */
     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+
+    /* micro haptic */
+    tg.HapticFeedback?.impactLight();
   };
 });
 
