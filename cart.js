@@ -1,11 +1,12 @@
 /* =========================================================
-   CART MODULE – 1 000 000 $
+   CART MODULE – 1 000 000 $  (savatda joylashuv yoʻq,
+   tasdiqlash bosilgina Telegram location so‘raydi)
    ========================================================= */
 const tg = window.Telegram?.WebApp || {};
 
 export let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-let currentLocation = null;
 
+/* ---------- saqlash + badge ---------- */
 export function saveCart(){
   localStorage.setItem('cart', JSON.stringify(cart));
   updateBadge();
@@ -16,6 +17,7 @@ export function updateBadge(){
   if(badge) badge.textContent = total||'';
 }
 
+/* ---------- savatga qo‘shish ---------- */
 export function addToCart(id,name,price,qty,img){
   const exist = cart.find(i=>i.id==id);
   if(exist) exist.qty += qty;
@@ -24,6 +26,7 @@ export function addToCart(id,name,price,qty,img){
   tg.HapticFeedback?.impactLight();
 }
 
+/* ---------- sonini o‘zgartirish ---------- */
 window.changeQty = (id, delta) => {
   const item = cart.find(i=>i.id==id);
   if(!item) return;
@@ -31,6 +34,7 @@ window.changeQty = (id, delta) => {
   saveCart(); renderCart();
 };
 
+/* ---------- savatni ekranga chiqarish (JOYLASHUV YO‘Q) ---------- */
 export function renderCart(){
   const list = document.getElementById('cartList');
   const totalEl = document.getElementById('total');
@@ -64,50 +68,24 @@ export function renderCart(){
       </div>`;
   });
 
-  list.innerHTML = html + `
-    <div class="loc-box">
-      <span class="material-symbols-rounded">location_on</span>
-      <div>
-        <div class="label">Yetkazish manzili</div>
-        <div class="value" id="locText">Yuborilmagan</div>
-      </div>
-      <button id="getLocBtn">Joylashuvni yuborish</button>
-    </div>`;
-
-  totalEl.textContent=`Jami: ${sum.toLocaleString()} so‘m`;
-  document.getElementById('getLocBtn').onclick = getLocation;
+  /* ========== JOYLASHUV BO‘LIMI O‘CHIRILDI ========== */
+  list.innerHTML = html;
+  totalEl.textContent = `Jami: ${sum.toLocaleString()} so‘m`;
 }
 
+/* ---------- mahsulotni o‘chirish ---------- */
 window.removeItem = id=>{
   cart=cart.filter(i=>i.id!=id);
   saveCart(); renderCart();
 };
 
-function getLocation(){
-  if(!navigator.geolocation){ alert('Brauzer joylashuvni qo‘llab-quvvatlamaydi'); return; }
-  const btn = document.getElementById('getLocBtn');
-  btn.textContent = 'Yuborilmoqda...'; btn.disabled = true;
-  navigator.geolocation.getCurrentPosition(
-    pos=>{
-      currentLocation = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-      document.getElementById('locText').textContent = `Lat: ${currentLocation.lat.toFixed(5)}, Lon: ${currentLocation.lon.toFixed(5)}`;
-      btn.textContent = 'Yuborildi ✅';
-    },
-    err=>{
-      btn.textContent = 'Xato ❌'; btn.disabled = false;
-      alert('Joylashuvni olishda xato: ' + err.message);
-    },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
-  );
-}
-
+/* ========== TASDIQLASH: faqat Telegram location so‘raymiz ========== */
 document.getElementById('checkoutBtn')?.addEventListener('click',()=>{
   if(!cart.length){alert("Savat bo‘sh!");return;}
-  if(!currentLocation){alert("Iltimos joylashuvni yuboring!");return;}
-  const order = {
-    items: cart,
-    total: cart.reduce((s,i)=>s+i.price*i.qty,0),
-    location: currentLocation
-  };
-  window.Telegram?.WebApp?.sendData(JSON.stringify(order));
+
+  const tg = window.Telegram?.WebApp;
+  if(!tg){alert("Iltimos telegram orqali oching!");return;}
+
+  /* backend location so‘rovini yuboramiz */
+  tg.sendData(JSON.stringify({action:"request_location"}));
 });
