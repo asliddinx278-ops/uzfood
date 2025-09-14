@@ -1,10 +1,54 @@
-/* ---------- Bottom Navbar ---------- */
+/* =================== Root Colors =================== */
+:root{
+  --primary: #ff6b00;
+  --secondary: #ff944d;
+  --fg: #222;
+  --bg: #f9f9f9;
+  --glass: rgba(255,255,255,0.65);
+  --shadow: rgba(0,0,0,0.1);
+  --radius: 1rem;
+}
+
+body{
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+body.dark{
+  --fg: #eee;
+  --bg: #121212;
+  --glass: rgba(30,30,30,0.6);
+  --shadow: rgba(0,0,0,0.5);
+}
+
+/* =================== Animations =================== */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+/* =================== Pages =================== */
+.page{
+  display: none;
+  animation: fadeIn .3s ease-in-out;
+  padding-bottom: 70px; /* nav uchun joy */
+}
+.page.active{display: block;}
+
+/* =================== Bottom Navbar =================== */
 .bottom-nav{
   position: fixed;
   bottom: 0; left: 0; right: 0;
   display: flex;
-  height: 60px;
+  height: 65px;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border-top: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 -4px 20px var(--shadow);
   z-index: 1000;
 }
 .nav-item{
@@ -13,51 +57,126 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: none; border: none; color: var(--fg);
-  cursor: pointer; transition: .2s;
+  color: var(--fg);
+  font-size: 12px;
+  cursor: pointer;
   position: relative;
+  transition: all .2s ease;
 }
-.nav-item.active{color: var(--primary);}
-.nav-item .icon{font-size: 22px;}
-.nav-item .label{font-size: 11px; margin-top: 2px;}
+.nav-item .icon{
+  font-size: 22px;
+  margin-bottom: 3px;
+  transition: transform .2s ease;
+}
+.nav-item.active{
+  color: var(--primary);
+  font-weight: 600;
+}
+.nav-item.active .icon{transform: scale(1.2);}
+.nav-item:hover{color: var(--secondary);}
 .nav-item .badge{
   position: absolute;
-  top: 4px; right: 25%;
+  top: 6px; right: 28%;
   background: red; color: #fff;
   border-radius: 50%;
   width: 18px; height: 18px;
-  font-size: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* ---------- Pages ---------- */
-.page{display: none; animation: fadeIn .3s;}
-.page.active{display: block;}
-@keyframes fadeIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
-
-/* ---------- Glass Card ---------- */
+/* =================== Glass Card =================== */
 .glass{
   background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 1rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius);
   padding: 1rem;
   margin: 1rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  transition: transform .2s ease;
+}
+.glass:hover{
+  transform: translateY(-4px);
 }
 
-
-/* oldingi kodlariz saqlansin, faqat quyidagilarni qo‘shing/tekshiring */
-:root{
-  --primary:#ff6b00;
-  --fg:#222;
-  --bg:#fff;
-  --glass:rgba(255,255,255,0.55);
+/* =================== Buttons =================== */
+.btn{
+  display: inline-block;
+  padding: .6rem 1.2rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all .2s ease;
 }
-body.dark{ --fg:#eee; --bg:#121212; --glass:rgba(30,30,30,0.55); }
-.page{display:none}
-.page.active{display:block}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;height:60px;background:var(--glass);backdrop-filter:blur(12px);}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:none;border:none;color:var(--fg);cursor:pointer;font-size:11px;}
-.nav-item.active{color:var(--primary);}
-.nav-item .icon{font-size:22px;}
-.nav-item .badge{position:absolute;top:4px;right:25%;background:red;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;}
+.btn-primary{
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover{
+  background: var(--secondary);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+.btn-outline{
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover{
+  background: var(--primary);
+  color: #fff;
+}
+
+/* =================== Food Card =================== */
+.food-card{
+  display: flex;
+  align-items: center;
+  background: var(--glass);
+  border-radius: var(--radius);
+  margin: 1rem;
+  padding: .8rem;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform .2s ease;
+}
+.food-card:hover{transform: scale(1.02);}
+.food-card img{
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: .8rem;
+  margin-right: 1rem;
+}
+.food-info{
+  flex: 1;
+}
+.food-info h3{
+  margin: 0;
+  font-size: 1rem;
+}
+.food-info p{
+  margin: 3px 0 0;
+  font-size: .9rem;
+  color: gray;
+}
+.qty-controls{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qty-btn{
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background .2s;
+}
+.qty-btn:hover{background: var(--secondary);}
+.qty-number{
+  font-size: .95rem;
+  font-weight: 600;
+}
