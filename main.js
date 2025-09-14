@@ -80,10 +80,11 @@ export function renderMenu(){
         <h3>${item.name}</h3>
         <p class="price">${item.price.toLocaleString()} so‘m</p>
         <button class="add-btn"
-                onclick="import('./cart.js').then(m=>m.addToCart(${item.id},'${item.name}',${item.price},1))">
+                onclick="import('./cart.js').then(m=>m.addToCart(${item.id},'${item.name}',${item.price},1,'${item.img}'))">
           Tanlash
         </button>
       </div>`;
     container.appendChild(card);
   });
 }
+
