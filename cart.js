@@ -81,11 +81,11 @@ window.removeItem = id=>{
 
 /* ========== TASDIQLASH: faqat Telegram location so‘raymiz ========== */
 document.getElementById('checkoutBtn')?.addEventListener('click',()=>{
-  if(!cart.length){alert("Savat bo‘sh!");return;}
+  if (!cart.length) { alert("Savat bo‘sh!"); return; }
 
   const tg = window.Telegram?.WebApp;
-  if(!tg){alert("Iltimos telegram orqali oching!");return;}
+  if (!tg) { alert("Iltimos telegram orqali oching!"); return; }
 
-  /* backend location so‘rovini yuboramiz */
+  // Telegramga location so‘rovini yuboramiz
   tg.sendData(JSON.stringify({action:"request_location"}));
 });
