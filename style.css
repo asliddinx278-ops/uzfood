@@ -1,182 +1,81 @@
-/* =================== Root Colors =================== */
+/* 100 000 $ lik dizayn 😎 */
 :root{
-  --primary: #ff6b00;
-  --secondary: #ff944d;
-  --fg: #222;
-  --bg: #f9f9f9;
-  --glass: rgba(255,255,255,0.65);
-  --shadow: rgba(0,0,0,0.1);
-  --radius: 1rem;
+  --primary:#ff6b00;
+  --primary-g:linear-gradient(135deg,#ff8c00,#ff5500);
+  --bg:#f6f8fa;
+  --fg:#1a1a1a;
+  --card:#ffffff;
+  --soft:#e4e8ec;
+  --glass: rgba(255,255,255,0.75);
+  --shadow:0 4px 24px rgba(0,0,0,.06);
+  --curve:16px;
+  --font:'Inter',system-ui,-apple-system;
 }
-
-body{
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg);
-  color: var(--fg);
-  line-height: 1.6;
-}
-
 body.dark{
-  --fg: #eee;
-  --bg: #121212;
-  --glass: rgba(30,30,30,0.6);
-  --shadow: rgba(0,0,0,0.5);
+  --bg:#121212;
+  --fg:#f2f2f7;
+  --card:#1e1e1e;
+  --soft:#2c2c2e;
+  --glass:rgba(30,30,30,0.75);
+  --shadow:0 4px 24px rgba(0,0,0,.3);
 }
-
-/* =================== Animations =================== */
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(10px)}
-  to{opacity:1; transform:translateY(0)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font);}
+body{background:var(--bg);color:var(--fg);padding-bottom:72px;}
+/* ---------- TOP HEADER ---------- */
+.top-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px 8px;background:var(--glass);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--soft);position:sticky;top:0;z-index:100;
 }
-
-/* =================== Pages =================== */
-.page{
-  display: none;
-  animation: fadeIn .3s ease-in-out;
-  padding-bottom: 70px; /* nav uchun joy */
-}
-.page.active{display: block;}
-
-/* =================== Bottom Navbar =================== */
-.bottom-nav{
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  display: flex;
-  height: 65px;
-  background: var(--glass);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-top: 1px solid rgba(255,255,255,0.2);
-  box-shadow: 0 -4px 20px var(--shadow);
-  z-index: 1000;
-}
-.nav-item{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--fg);
-  font-size: 12px;
-  cursor: pointer;
-  position: relative;
-  transition: all .2s ease;
-}
-.nav-item .icon{
-  font-size: 22px;
-  margin-bottom: 3px;
-  transition: transform .2s ease;
-}
-.nav-item.active{
-  color: var(--primary);
-  font-weight: 600;
-}
-.nav-item.active .icon{transform: scale(1.2);}
-.nav-item:hover{color: var(--secondary);}
-.nav-item .badge{
-  position: absolute;
-  top: 6px; right: 28%;
-  background: red; color: #fff;
-  border-radius: 50%;
-  width: 18px; height: 18px;
-  font-size: 10px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-/* =================== Glass Card =================== */
-.glass{
-  background: var(--glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin: 1rem;
-  box-shadow: 0 8px 24px var(--shadow);
-  transition: transform .2s ease;
-}
-.glass:hover{
-  transform: translateY(-4px);
-}
-
-/* =================== Buttons =================== */
-.btn{
-  display: inline-block;
-  padding: .6rem 1.2rem;
-  border-radius: var(--radius);
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all .2s ease;
-}
-.btn-primary{
-  background: var(--primary);
-  color: #fff;
-}
-.btn-primary:hover{
-  background: var(--secondary);
-  box-shadow: 0 4px 12px var(--shadow);
-}
-.btn-outline{
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-.btn-outline:hover{
-  background: var(--primary);
-  color: #fff;
-}
-
-/* =================== Food Card =================== */
-.food-card{
-  display: flex;
-  align-items: center;
-  background: var(--glass);
-  border-radius: var(--radius);
-  margin: 1rem;
-  padding: .8rem;
-  box-shadow: 0 4px 12px var(--shadow);
-  transition: transform .2s ease;
-}
-.food-card:hover{transform: scale(1.02);}
-.food-card img{
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: .8rem;
-  margin-right: 1rem;
-}
-.food-info{
-  flex: 1;
-}
-.food-info h3{
-  margin: 0;
-  font-size: 1rem;
-}
-.food-info p{
-  margin: 3px 0 0;
-  font-size: .9rem;
-  color: gray;
-}
-.qty-controls{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.qty-btn{
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background .2s;
-}
-.qty-btn:hover{background: var(--secondary);}
-.qty-number{
-  font-size: .95rem;
-  font-weight: 600;
-}
+.top-header h1{font-size:24px;font-weight:700;letter-spacing:-.6px;}
+.icon-btn{background:none;border:none;color:var(--fg);font-size:22px;cursor:pointer;}
+/* ---------- TOP-5 SCROLL ---------- */
+.top5-wrapper{padding:12px 0 4px;}
+.top5-wrapper h2{font-size:17px;font-weight:600;margin:0 20px 10px;opacity:.75;}
+.top5-list{display:flex;gap:12px;overflow-x:auto;padding:0 20px 10px;scrollbar-width:none;}
+.top5-list::-webkit-scrollbar{display:none;}
+.top5-item{flex:0 0 auto;background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);padding:10px 14px;font-size:14px;font-weight:500;}
+/* ---------- CATEGORY PILLS ---------- */
+.cats-pills{display:flex;gap:10px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none;}
+.cats-pills::-webkit-scrollbar{display:none;}
+.cats-pills button{border:none;background:var(--soft);color:var(--fg);padding:8px 16px;border-radius:99px;font-size:14px;font-weight:500;white-space:nowrap;cursor:pointer;transition:.2s;}
+.cats-pills button.active{background:var(--primary-g);color:#fff;}
+/* ---------- MENU (horizontal card) ---------- */
+.menu-list{padding:0 20px 10px;display:flex;flex-direction:column;gap:14px;}
+.menu-card{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);display:flex;gap:14px;padding:12px;}
+.menu-card img{width:90px;height:90px;border-radius:12px;object-fit:cover;flex-shrink:0;}
+.menu-info{flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.menu-info h3{font-size:17px;font-weight:600;margin-bottom:4px;}
+.menu-info .price{font-size:18px;font-weight:700;color:var(--primary);}
+.porc{display:flex;gap:8px;margin-top:8px;}
+.porc button{flex:1;border:1.5px solid var(--soft);background:#fff;border-radius:8px;padding:6px;font-size:15px;font-weight:600;cursor:pointer;transition:.15s;}
+.porc button:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+/* ---------- SEARCH BOX ---------- */
+.search-box{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);margin:14px 20px;display:flex;align-items:center;gap:10px;padding:0 14px;height:48px;}
+.search-box span{font-size:22px;color:var(--primary);}
+.search-box input{flex:1;border:none;background:none;outline:none;font-size:16px;font-weight:500;}
+/* ---------- CART (3-rasm dagi tartib) ---------- */
+.cart-list{padding:14px 20px;display:flex;flex-direction:column;gap:12px;}
+.cart-item{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);padding:12px;display:flex;align-items:center;gap:12px;}
+.cart-item img{width:70px;height:70px;border-radius:10px;object-fit:cover;}
+.cart-details{flex:1;}
+.cart-details h4{font-size:16px;font-weight:600;margin-bottom:4px;}
+.cart-details p{font-size:14px;opacity:.7;}
+.cart-item strong{font-size:16px;font-weight:700;color:var(--primary);}
+.cart-item button{margin-left:auto;background:none;border:none;color:#ff3b30;font-size:20px;cursor:pointer;}
+.total-bar{position:sticky;bottom:72px;background:var(--card);border-top:1px solid var(--soft);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;font-size:18px;font-weight:700;}
+.checkout-btn{margin:0 20px 20px;background:var(--primary-g);color:#fff;border:none;border-radius:var(--curve);padding:16px;font-size:18px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);}
+/* ---------- PROFILE ---------- */
+.profile-card{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);margin:14px 20px;padding:24px;text-align:center;}
+.profile-card img{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;}
+.profile-card h2{font-size:20px;font-weight:600;margin-bottom:4px;}
+.profile-card p{font-size:15px;opacity:.7;margin-bottom:20px;}
+.logout-btn{display:inline-flex;align-items:center;gap:6px;background:var(--soft);color:var(--fg);border:none;border-radius:99px;padding:10px 18px;font-size:15px;font-weight:500;cursor:pointer;}
+/* ---------- BOTTOM NAV (3-rasm) ---------- */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--card);border-top:1px solid var(--soft);display:flex;z-index:1000;}
+.bottom-nav .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:none;border:none;color:var(--fg);cursor:pointer;font-size:11px;transition:.15s;}
+.bottom-nav .nav-item span{font-size:24px;margin-bottom:2px;}
+.bottom-nav .nav-item.active{color:var(--primary);}
+.bottom-nav .badge{position:absolute;top:6px;right:calc(50% - 26px);background:var(--primary);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;}
+/* ---------- DARK TOGGLE ---------- */
+body.dark .icon-btn{color:var(--fg);}
