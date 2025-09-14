@@ -16,10 +16,10 @@ export function updateBadge(){
   if(badge) badge.textContent = total||'';
 }
 
-export function addToCart(id,name,price,qty){
+export function addToCart(id,name,price,qty,img){
   const exist = cart.find(i=>i.id==id);
   if(exist) exist.qty += qty;
-  else cart.push({id,name,price,qty});
+  else cart.push({id,name,price,qty,img});
   saveCart();
   tg.HapticFeedback?.impactLight();
 }
@@ -47,7 +47,7 @@ export function renderCart(){
     sum+=sub;
     html+=`
       <div class="cart-item">
-        <img src="https://i.imgur.com/8cK9w.jpg" alt="${it.name}">
+        <img src="${it.img || 'https://i.imgur.com/8cK9w.jpg'}" alt="${it.name}">
         <div class="cart-details">
           <h4>${it.name}</h4>
           <p>${it.price.toLocaleString()} so‘m</p>
