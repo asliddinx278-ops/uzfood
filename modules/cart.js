@@ -24,15 +24,17 @@ export function renderCart(){
   const list = document.getElementById('cartList');
   const totalEl = document.getElementById('total');
   if(!cart.length){list.innerHTML='<p class="empty">Savat bo‘sh</p>';totalEl.textContent='';return;}
+
   let html=''; let sum=0;
   cart.forEach(it=>{
     const sub = it.price*it.qty;
     sum+=sub;
     html+=`
-      <div class="cart-item glass">
-        <div>
+      <div class="cart-item">
+        <img src="https://i.imgur.com/8cK9w.jpg" alt="${it.name}">
+        <div class="cart-details">
           <h4>${it.name}</h4>
-          <p>${it.price.toLocaleString()} × ${it.qty}</p>
+          <p>${it.price.toLocaleString()} so‘m × ${it.qty}</p>
         </div>
         <strong>${sub.toLocaleString()} so‘m</strong>
         <button onclick="removeItem(${it.id})">❌</button>
