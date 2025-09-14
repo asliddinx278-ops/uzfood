@@ -4,7 +4,7 @@
 
 // 1. Rasmlar – **imgur** CDN (o‘zingiznikiga almashtiring)
 const IMAGES = {
-  osh:      'https://i.imgur.com/1hYcO5Q.jpg',
+  osh:      'https://files.fm/u/3rxakgug89',
   shorva:   'https://i.imgur.com/N4R5XYZ.jpg',
   kabob:    'https://i.imgur.com/9aB1CDE.jpg',
   salat:    'https://i.imgur.com/2fG3HIJ.jpg',
