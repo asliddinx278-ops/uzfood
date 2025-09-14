@@ -3,8 +3,9 @@
    ========================================================= */
 
 // 1. Rasmlar – **imgur** CDN (o‘zingiznikiga almashtiring)
+
 const IMAGES = {
-  osh:      'https://i.ibb.co/tTY9cFfS/image1.jpg',
+  osh:      'https://i.ibb.co/tTY9cFfS/image1.jpg',  // Imgbb direct link
   shorva:   'https://i.imgur.com/N4R5XYZ.jpg',
   kabob:    'https://i.imgur.com/9aB1CDE.jpg',
   salat:    'https://i.imgur.com/2fG3HIJ.jpg',
