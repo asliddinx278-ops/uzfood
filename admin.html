@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8"/>
+  <title>Admin – 1 000 000 $</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{--p:#ff6b00;--bg:#f6f8fa;--card:#fff;--red:#e53e3e;--green:#38a169}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Arial}
+    body{background:var(--bg);padding-bottom:60px}
+    header{position:sticky;top:0;background:var(--card);padding:10px 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.06);z-index:10}
+    input,select{padding:6px 10px;border:1px solid #ccc;border-radius:6px}
+    button{padding:6px 12px;border:none;border-radius:6px;background:var(--p);color:#fff;cursor:pointer}
+    button:active{transform:scale(.95)}
+    .board{padding:14px;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    .order{background:var(--card);border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:6px}
+    .order.new{border-left:5px solid var(--p)}
+    .order.bekor{border-left-color:var(--red)}
+    .order.yetkazildi{border-left-color:var(--green)}
+    .top-row{display:flex;justify-content:space-between;align-items:center}
+    .items{font-size:14px;color:#555}
+    .addr{font-size:14px;font-weight:600}
+    .sum{color:var(--p);font-weight:700}
+    .acts{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+    .login{display:flex;gap:10px;justify-content:center;margin-top:40vh}
+    @media(max-width:400px){.board{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header id="toolbar" style="display:none">
+    <input id="phoneFilter" placeholder="Telefon orqali qidiruv">
+    <select id="statusFilter">
+      <option value="">Barcha holatlar</option>
+      <option value="yangi">Yangi</option>
+      <option value="tayyor">Tayyor</option>
+      <option value="yo'lda">Yo'lda</option>
+      <option value="yetkazildi">Yetkazildi</option>
+      <option value="bekor">Bekor</option>
+    </select>
+    <button onclick="loadOrders()">🔍</button>
+    <button onclick="location.reload()">🔄</button>
+  </header>
+
+  <div id="login" class="login">
+    <input id="pw" type="password" placeholder="Parol (1234)">
+    <button onclick="login()">Kirish</button>
+  </div>
+
+  <div id="board" class="board"></div>
+
+  <script>
+    const API = 'https://sizning-bot-server.uz'; // ← o‘zingizniki
+    let orders = [];
+
+    async function login() {
+      const pw = document.getElementById('pw').value;
+      const res = await fetch(API + '/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({password:pw})});
+      if (res.ok) { document.getElementById('login').style.display='none'; document.getElementById('toolbar').style.display='flex'; loadOrders(); setInterval(loadOrders, 10000); }
+      else alert('Parol xato!');
+    }
+
+    async function loadOrders() {
+      const phone = document.getElementById('phoneFilter').value;
+      const status = document.getElementById('statusFilter').value;
+      const q = new URLSearchParams({phone,status}).toString();
+      orders = await (await fetch(API + '/api/orders?' + q)).json().then(d => d.orders || []);
+      render();
+    }
+
+    function render() {
+      const b = document.getElementById('board');
+      if (!orders.length) { b.innerHTML = '<p>Buyurtmalar yo‘q.</p>'; return; }
+      b.innerHTML = orders.map(o => `
+        <div class="order ${o.status==='yangi'?'new': o.status==='bekor'?'bekor': o.status==='yetkazildi'?'yetkazildi':''}">
+          <div class="top-row">
+            <span><b>#${o.id.slice(-6)}</b></span>
+            <span class="sum">${o.total.toLocaleString()} so‘m</span>
+          </div>
+          <div class="items">${o.items.map(it=>`${it.name} x${it.q}`).join(', ')}</div>
+          <div class="addr">📍 <a href="https://www.google.com/maps?q=${o.lat},${o.lon}" target="_blank">Xaritada ko‘rish</a></div>
+          <div>📞 ${o.phone} | ⏱ ${new Date(o.created).toLocaleString('uz-UZ')}</div>
+          <div class="acts">
+            <button onclick="setStatus('${o.id}','tayyor')">Tayyor</button>
+            <button onclick="setStatus('${o.id}','yo\'lda')">Yo‘lda</button>
+            <button onclick="setStatus('${o.id}','yetkazildi')">Yetkazildi</button>
+            <button onclick="setStatus('${o.id}','bekor')" style="background:#e53e3e">Bekor</button>
+          </div>
+        </div>`).join('');
+    }
+
+    async function setStatus(id, st) {
+      await fetch(API + '/api/orders/' + id, {method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({status:st})});
+      loadOrders();
+    }
+  </script>
+</body>
+</html>
