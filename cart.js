@@ -89,3 +89,4 @@ document.getElementById('checkoutBtn')?.addEventListener('click',()=>{
   /* ===== Telegram native location so‘rovi ===== */
   tg.requestLocation(() => {});   // location so‘rovini yuboradi
 });
+   
