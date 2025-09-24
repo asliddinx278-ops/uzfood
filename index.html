@@ -2,8 +2,8 @@
 <html lang="uz">
 <head>
   <meta charset="utf-8"/>
+  <title>O‘zbek Taomlari – 2025</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>O‘zbek Taomlari – 1 000 000 $</title>
   <link rel="manifest" href="manifest.json"/>
   <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,7 +11,6 @@
   <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
 </head>
 <body class="light">
-  <!-- ----------  PAGES  ---------- -->
   <main id="pages">
     <!-- ASOSIY -->
     <section id="page-main" class="page active">
@@ -43,7 +42,7 @@
       <div id="cartList" class="cart-list"></div>
       <div class="checkout-sticky">
         <div id="total" class="total-line"></div>
-        <button id="checkoutBtn" class="checkout-btn">Tasdiqlash</button>
+        <button id="checkoutBtn" class="checkout-btn">Buyurtma berish</button>
       </div>
     </section>
 
@@ -55,10 +54,28 @@
         <h2 id="fullName">Foydalanuvchi</h2>
         <p id="phone">+998 ** *** ** **</p>
       </div>
+      <div id="profileExtra" class="profile-extra"></div>
+      <div class="profile-menu">
+        <button onclick="openWishlist()">♡ Sevimlilar</button>
+        <button onclick="openOrders()">📋 Buyurtmalarim</button>
+        <button onclick="openLang()">🌐 Til tanlash</button>
+        <button onclick="openSupport()">📞 Yordam</button>
+      </div>
+    </section>
+
+    <!-- SEVIMLILAR -->
+    <section id="page-wish" class="page">
+      <header class="top-bar"><h1>Sevimlilar</h1></header>
+      <div id="wishList" class="menu-list"></div>
+    </section>
+
+    <!-- BUYURTMALAR -->
+    <section id="page-orders" class="page">
+      <header class="top-bar"><h1>Buyurtmalarim</h1></header>
+      <div id="ordersList" class="orders-list"></div>
     </section>
   </main>
 
-  <!-- ----------  BOTTOM NAV  ---------- -->
   <nav class="bottom-nav">
     <button class="nav-item active" data-page="main">
       <span class="material-symbols-rounded">home</span>
