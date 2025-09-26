@@ -29,12 +29,15 @@ body{background:var(--bg);color:var(--fg);padding-bottom:72px;letter-spacing:-.2
 .menu-card img{width:100px;height:100px;border-radius:var(--curve-sm);object-fit:cover;flex-shrink:0;}
 .menu-info{flex:1;display:flex;flex-direction:column;justify-content:space-between;}
 .menu-info h3{font-size:17px;font-weight:600;margin-bottom:4px;}
+.rate{font-size:14px;color:#666;margin-bottom:4px;}
 .menu-info .price{font-size:18px;font-weight:700;color:var(--primary);}
 .wish-btn{position:absolute;top:10px;right:10px;background:#fff;border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1);cursor:pointer;transition:var(--trans);}
 .wish-btn:active{transform:scale(.85);}
 .wish-btn.liked{color:#e53e3e;}
-.add-btn{margin-top:8px;align-self:flex-start;background:var(--primary-g);color:#fff;border:none;border-radius:var(--curve-sm);padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--trans);}
+.add-btn{margin-top:8px;align-self:flex-start;background:var(--primary-g);color:#fff;border:none;border-radius:var(--curve-sm);padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--trans);position:relative;overflow:hidden;}
 .add-btn:active{transform:scale(.95);}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.6);transform:scale(0);animation:ripple .6s linear;}
+@keyframes ripple{to{transform:scale(2);opacity:0;}}
 .search-box{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);margin:14px 20px;display:flex;align-items:center;gap:10px;padding:0 14px;height:48px;}
 .search-box span{font-size:22px;color:var(--primary);}
 .search-box input{flex:1;border:none;background:none;outline:none;font-size:16px;font-weight:500;}
@@ -63,6 +66,15 @@ body{background:var(--bg);color:var(--fg);padding-bottom:72px;letter-spacing:-.2
 .profile-menu{display:flex;flex-direction:column;gap:10px;padding:0 20px;}
 .profile-menu button{background:var(--card);border:none;border-radius:var(--curve-sm);padding:12px;font-size:15px;font-weight:500;text-align:left;box-shadow:var(--shadow);cursor:pointer;transition:var(--trans);}
 .profile-menu button:active{transform:scale(.98);}
+.orders-list{padding:16px;display:flex;flex-direction:column;gap:12px;}
+.order-card{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:6px;}
+.order-card .top{display:flex;justify-content:space-between;align-items:center;}
+.order-card .status{font-size:12px;padding:4px 8px;border-radius:99px;color:#fff;font-weight:600;}
+.order-card .status.yangi{background:var(--primary);}
+.order-card .status.tayyor{background:#3182ce;}
+.order-card .status.yetkazildi{background:#38a169;}
+.order-card .items{font-size:14px;color:#555;}
+.order-card .sum{color:var(--primary);font-weight:700;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--glass);backdrop-filter:blur(20px);border-top:1px solid var(--soft);display:flex;z-index:1000;padding:0 4px;}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:none;border:none;color:var(--fg);cursor:pointer;font-size:11px;position:relative;transition:var(--trans);}
 .nav-item span{font-size:23px;margin-bottom:2px;transition:var(--trans);}
@@ -76,34 +88,4 @@ body{background:var(--bg);color:var(--fg);padding-bottom:72px;letter-spacing:-.2
 .page.active{display:block;}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .empty{padding:30px;text-align:center;opacity:.5;}
-.orders-list{padding:16px;display:flex;flex-direction:column;gap:12px;}
-.order-card{background:var(--card);border-radius:var(--curve);box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:6px;}
-.order-card .top{display:flex;justify-content:space-between;align-items:center;}
-.order-card .status{font-size:12px;padding:4px 8px;border-radius:99px;color:#fff;font-weight:600;}
-.order-card .status.yangi{background:var(--p);}
-.order-card .status.tayyor{background:var(--blue);}
-.order-card .status.yetkazildi{background:var(--green);}
-.order-card .items{font-size:14px;color:#555;}
-.order-card .sum{color:var(--p);font-weight:700;}
-
-.add-btn {
-  position: relative;
-  overflow: hidden;
-}
-.add-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255,255,255,.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width .4s, height .4s;
-}
-.add-btn:active::after {
-  width: 200px;
-  height: 200px;
-}
-
+             
