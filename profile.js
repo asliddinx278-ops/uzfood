@@ -51,4 +51,4 @@ window.openLang     = () => {
   localStorage.setItem('lang', window.lang);
   location.reload();
 };
-window.openSupport  = () => { tg.openTelegramLink('https://t.me/asliddinx278'); };
+window.openSupport  = () => { tg.openTelegramLink('https://t.me/aslidd1nake_o1'); };
