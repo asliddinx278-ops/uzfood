@@ -1,5 +1,5 @@
 /* =========================================================
-   PROFILE – 2025 (telefon raqam doim ko‘rsatiladi)
+   PROFILE – 2025 (telefon raqam saqlanadi + ko‘rsatiladi)
    ========================================================= */
 const tg = window.Telegram?.WebApp || {};
 
@@ -43,6 +43,7 @@ export function phoneHandler() {
   }
 }
 
+/* ---------- Sahifalar ---------- */
 window.openWishlist = () => { window.showPage('wish'); };
 window.openOrders   = () => { window.showPage('orders'); };
 window.openLang     = () => {
@@ -51,4 +52,4 @@ window.openLang     = () => {
   localStorage.setItem('lang', window.lang);
   location.reload();
 };
-window.openSupport  = () => { tg.openTelegramLink('https://t.me/aslidd1nake_o1'); };
+window.openSupport  = () => { tg.openTelegramLink('https://t.me/asliddinx278'); };
