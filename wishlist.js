@@ -1,3 +1,6 @@
+/* =========================================================
+   WISHLIST – 2025 (sevimlilar ro‘yxati)
+   ========================================================= */
 import { FULL_MENU } from './main.js';
 
 export function renderWishlist() {
