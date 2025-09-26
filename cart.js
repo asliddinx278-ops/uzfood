@@ -1,31 +1,32 @@
 /* =========================================================
-   CART MODULE – 1 000 000 $  (yangi: animatsiya + joylashuv)
+   CART – 2025 (telefon + joylashuv + animatsiya)
    ========================================================= */
 const tg = window.Telegram?.WebApp || {};
 
-export let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+window.cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
 export function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem('cart', JSON.stringify(window.cart));
   updateBadge();
 }
 
 export function updateBadge() {
-  const total = cart.reduce((s, i) => s + i.qty, 0);
+  const total = window.cart.reduce((s, i) => s + i.qty, 0);
   const badge = document.getElementById('cartBadge');
   if (badge) badge.textContent = total || '';
 }
 
 export function addToCart(id, name, price, qty, img) {
-  const exist = cart.find(i => i.id == id);
+  const exist = window.cart.find(i => i.id == id);
   if (exist) exist.qty += qty;
-  else cart.push({ id, name, price, qty, img });
+  else window.cart.push({ id, name, price, qty, img });
   saveCart();
   tg.HapticFeedback?.impactLight();
+  tg.showAlert('✅ Savatga qo‘shildi!');
 }
 
 window.changeQty = (id, delta) => {
-  const item = cart.find(i => i.id == id);
+  const item = window.cart.find(i => i.id == id);
   if (!item) return;
   item.qty = Math.max(1, item.qty + delta);
   saveCart();
@@ -33,7 +34,7 @@ window.changeQty = (id, delta) => {
 };
 
 window.removeItem = id => {
-  cart = cart.filter(i => i.id != id);
+  window.cart = window.cart.filter(i => i.id != id);
   saveCart();
   renderCart();
 };
@@ -42,7 +43,7 @@ export function renderCart() {
   const list = document.getElementById('cartList');
   const totalEl = document.getElementById('total');
 
-  if (!cart.length) {
+  if (!window.cart.length) {
     list.innerHTML = '<p class="empty">Savat bo‘sh</p>';
     totalEl.textContent = '';
     return;
@@ -50,7 +51,7 @@ export function renderCart() {
 
   let html = '';
   let sum = 0;
-  cart.forEach(it => {
+  window.cart.forEach(it => {
     const sub = it.price * it.qty;
     sum += sub;
     html += `
@@ -76,46 +77,34 @@ export function renderCart() {
   totalEl.textContent = `Jami: ${sum.toLocaleString()} so‘m`;
 }
 
-// ========== YANGI: BUYURTMA BERISH ==========
+// ========== BUYURTMA ==========
 document.getElementById('checkoutBtn')?.addEventListener('click', async () => {
-  if (!cart.length) {
-    alert("❌ Savat bo‘sh!");
+  if (!window.cart.length) {
+    tg.showAlert('❌ Savat bo‘sh!');
     return;
   }
 
-  const tg = window.Telegram?.WebApp;
-  if (!tg) {
-    alert("❌ Iltimos, Telegram orqali oching!");
-    return;
-  }
-
-  // ========== ANIMATSIYA ==========
   const btn = document.getElementById('checkoutBtn');
   btn.disabled = true;
   btn.textContent = "⏳ Yuborilmoqda...";
 
-  await new Promise(r => setTimeout(r, 800));
+  await new Promise(r => setTimeout(r, 600));
 
-  // ========== MA'LUMOTLARNI TAYYORLASH ==========
-  const items = cart.map(i => ({ id: i.id, name: i.name, q: i.qty, price: i.price }));
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const items = window.cart.map(i => ({ id: i.id, name: i.name, q: i.qty, price: i.price }));
+  const total = window.cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const phone = localStorage.getItem('phone') || ''; // ✅ telefon
 
-  // ========== TELEGRAMGA YUBORISH ==========
-  tg.sendData(JSON.stringify({ action: "order", items, total }));
+  tg.sendData(JSON.stringify({ action: "order", items, total, phone }));
 
-  // ========== SUCCESS ANIMATSIYA ==========
   btn.textContent = "✅ Buyurtma qabul qilindi!";
   btn.style.background = "#38a169";
 
-  // ========== JOYLASHUV SO‘RASH ==========
+  window.cart = [];
+  saveCart();
+  renderCart();
+
   setTimeout(() => {
     btn.textContent = "📍 Joylashuvni yuboring...";
     btn.style.background = "#3182ce";
-    tg.showScanQrPopup?.({ text: "Joylashuvni yuboring" });
-  }, 1200);
-
-  // ========== SAVATNI BO‘SHATISH ==========
-  cart = [];
-  saveCart();
-  renderCart();
+  }, 1000);
 });
