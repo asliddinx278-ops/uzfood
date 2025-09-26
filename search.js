@@ -1,46 +1,38 @@
 /* =========================================================
-   SEARCH MODULE – 1 000 000 $  (to‘liq, rasm bilan)
+   SEARCH – 2025 (nom bo‘yicha qidiruv)
    ========================================================= */
 import { FULL_MENU } from './main.js';
 
-export function renderSearch(){
+export function renderSearch() {
   const inp = document.getElementById('searchInp');
   const res = document.getElementById('searchRes');
 
-  /* birinchi yuklaganda bo‘sh holat */
-  if(!inp || !res) return;
-
   inp.oninput = () => {
     const q = inp.value.trim().toLowerCase();
-    if(!q){ res.innerHTML=''; return; }
+    if (!q) { res.innerHTML = ''; return; }
 
-    /* nom bo‘yicha qidirish */
     const found = Object.values(FULL_MENU)
                        .flat()
                        .filter(item => item.name.toLowerCase().includes(q));
 
-    /* natijani chiqarish */
     res.innerHTML = '';
-    if(!found.length){ res.innerHTML='<p class="empty">Hech narsa topilmadi</p>'; return; }
+    if (!found.length) { res.innerHTML = '<p class="empty">Hech narsa topilmadi</p>'; return; }
 
-    found.forEach(it=>{
+    found.forEach(it => {
       const card = document.createElement('div');
       card.className = 'menu-card';
       card.innerHTML = `
         <img src="${it.img}" alt="${it.name}">
         <div class="menu-info">
           <h3>${it.name}</h3>
+          <div class="rate">⭐ ${it.rating}</div>
           <p class="price">${it.price.toLocaleString()} so‘m</p>
-          <button class="add-btn"
-                  onclick="import('./cart.js')
-                          .then(m=>m.addToCart(${it.id},'${it.name}',${it.price},1,'${it.img}'))">
-            Tanlash
-          </button>
+          <button class="add-btn" onclick="addToCart(${it.id},'${it.name}',${it.price},1,'${it.img}')">Tanlash</button>
         </div>`;
       res.appendChild(card);
     });
   };
 
-  /* birinchi ochilganda bo‘sh holat */
+  // boshlang‘ich bo‘sh holat
   inp.oninput();
-                                    }
+}
