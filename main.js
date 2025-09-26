@@ -1,3 +1,6 @@
+/* =========================================================
+   MAIN MODULE – 2025 (mahsulot, reyting, sevimlilar, ripple, til, TOP-5)
+   ========================================================= */
 export const FULL_MENU = {
   osh: [
     { id: 1, name: "G‘ijduvoncha osh", price: 25000, img: "https://i.ibb.co/v853GdT/720-460-95-1547113144.jpg", rating: 4.8 },
@@ -39,7 +42,7 @@ let currentCat = 'osh';
 const t = { uz: { add: "Tanlash" }, ru: { add: "Выбрать" }, en: { add: "Select" } };
 const lang = localStorage.getItem('lang') || 'uz';
 
-/* ---------- TOP-5 ---------- */
+/* ---------- TOP-5 (REST) ---------- */
 export async function renderTop5() {
   try {
     const res = await fetch('/.netlify/functions/top5');
@@ -109,4 +112,5 @@ export function renderMenu() {
   const container = document.getElementById('menu');
   container.innerHTML = '';
   FULL_MENU[currentCat].forEach(item => container.appendChild(createCard(item)));
-}
+     }
+     
