@@ -1,3 +1,6 @@
+/* =========================================================
+   ORDERS – 2025 (buyurtmalar tarixi)
+   ========================================================= */
 export function renderOrders() {
   const list = document.getElementById('ordersList');
   const orders = JSON.parse(localStorage.getItem('orders') || '[]');
