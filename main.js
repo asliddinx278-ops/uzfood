@@ -1,6 +1,3 @@
-/* =========================================================
-   MAIN MODULE – 2025 (wishlist + rating + ripple + lang + anim)
-   ========================================================= */
 export const FULL_MENU = {
   osh: [
     { id: 1, name: "G‘ijduvoncha osh", price: 25000, img: "https://i.ibb.co/v853GdT/720-460-95-1547113144.jpg", rating: 4.8 },
@@ -38,16 +35,11 @@ export const FULL_MENU = {
 
 let currentCat = 'osh';
 
-/* ---------- Til Resurslari ---------- */
-const t = {
-  uz: { add: "Tanlash", liked: "Sevimli" },
-  ru: { add: "Выбрать", liked: "Избранное" },
-  en: { add: "Select", liked: "Liked" }
-};
-
+/* ---------- Til ---------- */
+const t = { uz: { add: "Tanlash" }, ru: { add: "Выбрать" }, en: { add: "Select" } };
 const lang = localStorage.getItem('lang') || 'uz';
 
-/* ---------- TOP-5 (REST API) ---------- */
+/* ---------- TOP-5 ---------- */
 export async function renderTop5() {
   try {
     const res = await fetch('/.netlify/functions/top5');
@@ -62,7 +54,7 @@ export async function renderTop5() {
   }
 }
 
-/* ---------- Kategoriya Pills ---------- */
+/* ---------- Kategoriya ---------- */
 export function renderCats() {
   const nav = document.getElementById('cats');
   nav.innerHTML = '';
@@ -84,12 +76,11 @@ window.toggleWish = id => {
   renderMenu();
 };
 
-/* ---------- Reyting Yulduzchasi ---------- */
-function starRating(rating) {
-  const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5 ? 1 : 0;
-  const empty = 5 - full - half;
-  return '⭐'.repeat(full) + (half ? '⭐' : '') + '☆'.repeat(empty);
+/* ---------- Reyting ---------- */
+function starRating(r) {
+  const full = Math.floor(r);
+  const half = r % 1 >= 0.5 ? 1 : 0;
+  return '⭐'.repeat(full) + (half ? '⭐' : '') + '☆'.repeat(5 - full - half);
 }
 
 /* ---------- Mahsulot Kartochkasi ---------- */
@@ -117,23 +108,5 @@ function createCard(item) {
 export function renderMenu() {
   const container = document.getElementById('menu');
   container.innerHTML = '';
-  FULL_MENU[currentCat].forEach(item => {
-    container.appendChild(createCard(item));
-  });
+  FULL_MENU[currentCat].forEach(item => container.appendChild(createCard(item)));
 }
-
-/* ---------- Ripple Effekt (add-btn) ---------- */
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('add-btn')) {
-    const btn = e.target;
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    btn.appendChild(ripple);
-    const rect = btn.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
-    ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
-    setTimeout(() => ripple.remove(), 600);
-  }
-});
