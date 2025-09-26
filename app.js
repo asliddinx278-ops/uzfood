@@ -1,7 +1,9 @@
 import { renderTop5, renderMenu, renderCats } from './main.js';
 import { renderCart, updateBadge } from './cart.js';
 import { renderSearch } from './search.js';
-import { renderProfile } from './profile.js';
+import { renderProfile, phoneHandler } from './profile.js';
+import { renderWishlist } from './wishlist.js';
+import { renderOrders } from './orders.js';
 
 const tg = window.Telegram?.WebApp || {};
 tg.expand?.();
@@ -47,9 +49,17 @@ function showPage(name) {
 /* ---------- MainButton ---------- */
 tg.MainButton.setText('Buyurtma berish');
 tg.MainButton.onClick(() => {
-  if (cart.length) document.getElementById('checkoutBtn').click();
+  if (window.cart && window.cart.length) document.getElementById('checkoutBtn').click();
   else tg.showAlert('Savat bo‘sh!');
 });
+
+/* ---------- Phone ---------- */
+document.getElementById('phoneBtn')?.addEventListener('click', phoneHandler);
+
+/* ---------- Global addToCart ---------- */
+window.addToCart = (id, name, price, qty, img) => {
+  import('./cart.js').then(m => m.addToCart(id, name, price, qty, img));
+};
 
 /* ---------- Initial ---------- */
 showPage('main');
