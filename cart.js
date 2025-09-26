@@ -1,5 +1,5 @@
 /* =========================================================
-   CART – 2025 (telefon + joylashuv + animatsiya)
+   CART – 2025 (savat + buyurtma + telefon + animatsiya)
    ========================================================= */
 const tg = window.Telegram?.WebApp || {};
 
@@ -77,7 +77,7 @@ export function renderCart() {
   totalEl.textContent = `Jami: ${sum.toLocaleString()} so‘m`;
 }
 
-// ========== BUYURTMA ==========
+// ========== BUYURTMA BERISH ==========
 document.getElementById('checkoutBtn')?.addEventListener('click', async () => {
   if (!window.cart.length) {
     tg.showAlert('❌ Savat bo‘sh!');
