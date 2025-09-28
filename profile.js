@@ -1,55 +1,61 @@
-/* =========================================================
-   PROFILE – 2025 (telefon raqam saqlanadi + ko‘rsatiladi)
-   ========================================================= */
-const tg = window.Telegram?.WebApp || {};
+// Profil, sevimlilar va buyurtmalarim uchun yangi kod (fetch API ishlatadi)
 
-export function renderProfile() {
-  const u = tg.initDataUnsafe?.user;
-  const ava = document.getElementById('avatar');
-  if (u?.photo_url) ava.src = u.photo_url;
+const user_id = localStorage.getItem('user_id');
 
-  document.getElementById('fullName').textContent =
-    [u?.first_name, u?.last_name].filter(Boolean).join(' ') || 'Foydalanuvchi';
-
-  // ✅ Telefon – doim localStorage dan
-  const savedPhone = localStorage.getItem('phone');
-  document.getElementById('phone').textContent = savedPhone
-    ? formatPhone(savedPhone)
-    : '+998 ** *** ** **';
-
-  document.getElementById('profileExtra').innerHTML = `
-    <div class="info-row"><span>ID:</span><span>${u?.id || 'noma’lum'}</span></div>
-    <div class="info-row"><span>Til:</span><span>${window.lang.toUpperCase()}</span></div>
-    <div class="info-row"><span>Ballar:</span><span>${localStorage.getItem('points') || 0}</span></div>
-  `;
+// Profilni yuklash
+function loadProfile() {
+    fetch(`/api/profile/${user_id}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) return;
+            document.getElementById('profile-name').innerText = data.name || '';
+            document.getElementById('profile-phone').innerText = data.phone || '';
+            document.getElementById('profile-lang').innerText = data.lang || 'uz';
+        });
 }
 
-function formatPhone(raw) {
-  const digits = raw.replace(/\D/g, '');
-  if (digits.length === 12 && digits.startsWith('998')) {
-    return `+998 ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`;
-  }
-  return raw;
+// Buyurtmalarimni yuklash
+function loadMyOrders() {
+    fetch(`/api/orders/user/${user_id}`)
+        .then(r => r.json())
+        .then(data => {
+            let orders = data.orders || [];
+            let html = '';
+            orders.forEach(o => {
+                html += `<div class="order-card">
+                    <b>Buyurtma #${o.id.slice(-6)}</b> &nbsp; (${o.status})<br>
+                    Sana: ${o.created.substr(0, 19).replace('T',' ')}<br>
+                    Narxi: <b>${o.total} so'm</b>
+                </div>`;
+            });
+            document.getElementById('my-orders').innerHTML = orders.length ? html : 'Buyurtmalar topilmadi';
+        });
 }
 
-export function phoneHandler() {
-  const phone = prompt("Telefon raqamingizni kiriting (masalan: +998901234567):", "+998");
-  if (phone && phone.length >= 12) {
-    localStorage.setItem('phone', phone);
-    renderProfile(); // ✅ yangilab ko‘rsatadi
-    tg.showAlert('✅ Raqam saqlandi!');
-  } else {
-    tg.showAlert('❌ Raqam noto‘g‘ri!');
-  }
+// Sevimlilarni yuklash
+function loadWishlist() {
+    fetch(`/api/favorites?user_id=${user_id}`)
+        .then(r => r.json())
+        .then(data => {
+            let favs = data.favorites || [];
+            // Mahsulotlarni olish uchun yana /api/products ga so‘rov yuboring
+            fetch('/api/products')
+                .then(r => r.json())
+                .then(pd => {
+                    let html = '';
+                    pd.products.filter(p => favs.includes(p.id)).forEach(p => {
+                        html += `<div class="fav-card">
+                            <img src="${p.img}" width="60">
+                            <b>${p.name}</b> &nbsp; <span>${p.price} so'm</span>
+                        </div>`;
+                    });
+                    document.getElementById('wishlist').innerHTML = html || 'Sevimlilar yo‘q';
+                });
+        });
 }
 
-/* ---------- Sahifalar ---------- */
-window.openWishlist = () => { window.showPage('wish'); };
-window.openOrders   = () => { window.showPage('orders'); };
-window.openLang     = () => {
-  const next = { uz: 'ru', ru: 'en', en: 'uz' };
-  window.lang = next[window.lang];
-  localStorage.setItem('lang', window.lang);
-  location.reload();
-};
-window.openSupport  = () => { tg.openTelegramLink('https://t.me/asliddinx278'); };
+document.addEventListener('DOMContentLoaded', () => {
+    loadProfile();
+    loadMyOrders();
+    loadWishlist();
+});
