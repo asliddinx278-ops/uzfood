@@ -1,0 +1,14 @@
+venv/
+*.pyc
+__pycache__/
+.env
+.env.local
+uzfood.db
+*.log
+.DS_Store
+.vscode/
+.idea/
+*.db-journal
+node_modules/
+dist/
+build/
