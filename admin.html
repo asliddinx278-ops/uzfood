@@ -266,5 +266,8 @@
   async function approveReview(id) {
     await fetch(API + '/api/reviews/' + id + '/approve', {
       method: 'POST',
-      headers: {
-  
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret: 'megaadmin' })
+    });
+    showReviews();
+  }
