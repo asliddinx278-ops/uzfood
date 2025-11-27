@@ -55,7 +55,7 @@
 
 <script>
   const ADMIN_IDS = [7961099561]; // ← o‘zingizniki
-  const API = 'http://127.0.0.1:8080'; // local backend (change to your server URL when deploying)
+  const API = 'https://your-bot-server.vercel.app'; // ← o‘zingizniki
 
   function checkAdmin() {
     const uid = new URLSearchParams(location.search).get('uid');
@@ -271,28 +271,3 @@
     });
     showReviews();
   }
-
-  // 7. Excel export
-  async function exportExcel() {
-    const res = await fetch(API + '/api/orders');
-    const data = await res.json();
-    const orders = data.orders || [];
-    let csv = 'ID,User,Telefon,Summa,Status,Sana\n';
-    orders.forEach(o => {
-      csv += `${o.id},${o.user_id},${o.phone},${o.total},${o.status},"${o.created}"\n`;
-    });
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'orders.csv';
-    a.click();
-  }
-
-  // Auto-load orders on page load
-  window.addEventListener('load', checkAdmin);
-</script>
-
-</body>
-</html>
-  
