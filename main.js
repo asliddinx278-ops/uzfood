@@ -1,6 +1,12 @@
 /* =========================================================
    MAIN MODULE – 2025 (mahsulot, reyting, sevimlilar, ripple, til, TOP-5)
    ========================================================= */
+
+// API URL - change for production
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+  ? 'http://127.0.0.1:8080' 
+  : 'https://your-backend.com';
+
 export const FULL_MENU = {
   osh: [
     { id: 1, name: "G‘ijduvoncha osh", price: 25000, img: "https://i.ibb.co/v853GdT/720-460-95-1547113144.jpg", rating: 4.8 },
@@ -44,30 +50,33 @@ const lang = localStorage.getItem('lang') || 'uz';
 
 /* ---------- TOP-5 (REST) ---------- */
 export async function renderTop5() {
+  const box = document.getElementById('top5');
+  if (!box) return;
+  
   try {
-    const res = await fetch('/.netlify/functions/top5');
-    const top = await res.json();
-    const box = document.getElementById('top5');
-    box.innerHTML = top.map((f, i) => `
-      <div class="top5-item">
-        ${i + 1}. ${f.name} (${f.count})
-      </div>`).join('');
-  } catch (e) {
-    document.getElementById('top5').innerHTML = '';
+    // Get all products and sort by rating
+    const res = await fetch(`${API}/api/products`);
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    const products = (data.products || [])
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      .slice(0, 5);
+    
+    if (products.length === 0) {
+      // Fallback: use top 5 from FULL_MENU
+      box.innerHTML = '';
+      const allItems = Object.values(FULL_MENU).flat().slice(0, 5);
+      allItems.forEach(item => box.appendChild(createCard(item)));
+    } else {
+      box.innerHTML = '';
+      products.forEach(item => box.appendChild(createCard(item)));
+    }
+  } catch (err) {
+    console.warn('Top5 API failed, using local:', err);
+    box.innerHTML = '';
+    const allItems = Object.values(FULL_MENU).flat().slice(0, 5);
+    allItems.forEach(item => box.appendChild(createCard(item)));
   }
-}
-
-/* ---------- Kategoriya ---------- */
-export function renderCats() {
-  const nav = document.getElementById('cats');
-  nav.innerHTML = '';
-  Object.keys(FULL_MENU).forEach(cat => {
-    const btn = document.createElement('button');
-    btn.textContent = cat[0].toUpperCase() + cat.slice(1);
-    btn.className = cat === currentCat ? 'active' : '';
-    btn.onclick = () => { currentCat = cat; renderMenu(); };
-    nav.appendChild(btn);
-  });
 }
 
 /* ---------- Sevimlilar ---------- */
@@ -108,9 +117,44 @@ function createCard(item) {
 }
 
 /* ---------- Menyu Render ---------- */
-export function renderMenu() {
+export async function renderMenu() {
   const container = document.getElementById('menu');
-  container.innerHTML = '';
-  FULL_MENU[currentCat].forEach(item => container.appendChild(createCard(item)));
-     }
-     
+  container.innerHTML = '<p style="text-align:center; padding:20px;">⏳ Yuklanyapti...</p>';
+  
+  try {
+    // Try to fetch from API first
+    const res = await fetch(`${API}/api/products?cat=${currentCat}`);
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    const products = data.products || [];
+    
+    if (products.length === 0) {
+      // Fallback to local FULL_MENU if API returns empty
+      container.innerHTML = '';
+      FULL_MENU[currentCat]?.forEach(item => container.appendChild(createCard(item)));
+    } else {
+      container.innerHTML = '';
+      products.forEach(item => container.appendChild(createCard(item)));
+    }
+  } catch (err) {
+    console.warn('API failed, using local menu:', err);
+    // Fallback to local data
+    container.innerHTML = '';
+    FULL_MENU[currentCat]?.forEach(item => container.appendChild(createCard(item)));
+  }
+}
+
+/* ---------- Kategoriya Tugmalari ---------- */
+export function renderCats() {
+  const nav = document.getElementById('cats');
+  if (!nav) return; // safety check
+  nav.innerHTML = '';
+  
+  Object.keys(FULL_MENU).forEach(cat => {
+    const btn = document.createElement('button');
+    btn.textContent = cat[0].toUpperCase() + cat.slice(1);
+    btn.className = cat === currentCat ? 'active' : '';
+    btn.onclick = () => { currentCat = cat; renderMenu(); renderCats(); };
+    nav.appendChild(btn);
+  });
+}
