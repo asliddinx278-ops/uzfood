@@ -2,10 +2,17 @@
    MAIN MODULE – 2025 (mahsulot, reyting, sevimlilar, ripple, til, TOP-5)
    ========================================================= */
 
-// API URL - change for production
-const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-  ? 'http://127.0.0.1:8080' 
-  : 'https://your-backend.com';
+// API URL - read from meta tag `api-url` if present, else fallback to localhost or a placeholder
+function detectApiUrl(){
+  try{
+    const meta = document.querySelector('meta[name="api-url"]');
+    if(meta && meta.content) return meta.content.replace(/\/$/, '');
+  }catch(e){}
+  if(typeof window.API_URL === 'string' && window.API_URL) return window.API_URL.replace(/\/$/, '');
+  if(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return 'http://127.0.0.1:8080';
+  return 'https://your-backend.com';
+}
+const API = detectApiUrl();
 
 export const FULL_MENU = {
   osh: [

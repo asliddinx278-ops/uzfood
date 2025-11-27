@@ -55,7 +55,13 @@
 
 <script>
   const ADMIN_IDS = [7961099561]; // ← o‘zingizniki
-  const API = 'https://your-bot-server.vercel.app'; // ← o‘zingizniki
+  // API detection: read from <meta name="api-url"> or window.API_URL, fallback to localhost
+  function detectApi(){
+    try{ const m = document.querySelector('meta[name="api-url"]'); if(m && m.content) return m.content.replace(/\/$/, ''); }catch(e){}
+    if(typeof window.API_URL === 'string' && window.API_URL) return window.API_URL.replace(/\/$/, '');
+    return 'http://127.0.0.1:8080';
+  }
+  const API = detectApi(); // use detected API URL
 
   function checkAdmin() {
     const uid = new URLSearchParams(location.search).get('uid');
