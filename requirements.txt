@@ -1,3 +1,9 @@
-bottle==0.13.4
-pytelegrambotapi==4.29.1
-requests==2.32.5
+# Requirements for Taxi Management System
+Flask==2.3.3
+Flask-CORS==4.0.0
+Flask-JWT-Extended==4.5.2
+SQLAlchemy==2.0.21
+python-telegram-bot==20.3
+python-dotenv==1.0.0
+requests==2.31.0
+Werkzeug==2.3.7
